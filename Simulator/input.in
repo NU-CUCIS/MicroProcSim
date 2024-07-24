@@ -1,0 +1,8 @@
+set gridfile                 = sw1.grid
+set max_number_Gauss_pts     = 4
+set add boundary nodes       = n=0
+set redefine boundary indicators = nb=1 names=boundary 1=(1)
+set ensemble_size            = 10
+set data_size                = 145
+set ODF1_ensemble            = FILEF =ODF("ODF", t=0.1)
+ok

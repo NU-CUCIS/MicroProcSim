@@ -1,0 +1,142 @@
+
+MenuLists@Tension 
+ item:@1@gridfile@.@+gridfile@-.@Filename or PREPROCESSOR=PreproSupElSet/geometry/partition@S@sw1.grid@0
+ item:@1@max_number_Gauss_pts@.@+max_number_Gauss_pts@-.@Maximum number of Gauss points per element in the given mesh@I1@4@0
+ item:@1@add boundary nodes@b@+addBoNodes@-b@GridFE/Boundary::addBoIndNodes(Is is)@S@n=0@0
+ item:@1@redefine boundary indicators@b@+redefineBoInds@-b@GridFE/Boundary::redefineBoInds syntax@S@nb=1 names=one 1=(1)@0
+ item:@1@dof_slip_systems@.@+dof_slip_systems@-.@The number of slip systems in a crystal@I1@12@0
+ item:@1@general_constitutive_model@.@+general_constitutive_model@-.@Specify the general class of constitutive model@S/IsotropicRD/RateDependentModel/IsotropicThermalRD/IsotropicThermalMicroRD/IsotropicRI/IsotropicDamageRD/IsotropicThermalDamageRD/@RateDependentModel@0
+ item:@1@specific_constitutive_model@.@+specific_constitutive_model@-.@Specify the specific constitutive model@S/PowLaw/@PowLaw@0
+ item:@1@specific_solution_strategy@.@+specific_solution_strategy@-.@Specify the solution strategy@S/FullSystem/ReducedModel@FullModel@0
+ item:@1@TimePrm@.@+TimePrm@-.@TimePrm::scan(Is) syntax@S@dt=0.01 t in [0,0.1]@0
+ item:@1@last_grid_file@.@+last_grid_file@-.@The number of the last grid.gb file@I1@0@0
+ item:@1@model_size@.@+model_size@-.@The number of reduced functions@I1@3@0
+ item:@1@angular_spacing@.@+angular_spacing@-.@Angular spacing for the properties about the ND - default is 5@R1@5@0
+ item:@1@ensemble_size@.@+ensemble_size@-.@The number of actual functions@I1@10@0
+ item:@1@times_for_plot_grid@.@+times_for_plot_grid@-.@The times when the grid is stored for further postprocessing@S@0 0.25 0.5 0.75 1.0;@0
+ item:@1@times_for_plot_fields@.@+times_for_plot_fields@-.@The times when various fields are stored for further postprocessing@S@0 0.25 0.5 0.75 1.0;@0
+ submenu:@1@LinEqAdm@L@User-friendly interface to linear systems@0
+MenuLists@LinEqAdm 
+ submenu:@2@prm(Matrix)@M@prm(Matrix) parameters@0
+MenuLists@prm(Matrix) 
+ item:@3@matrix type@s@+mattype@-s@Classname from Matrix(Type) hierarchy@S/Mat/MatDense/MatBand/MatStructSparse/MatSparse/MatDiag/MatTri/MatPtOp/@MatBand@0
+ item:@3@symmetric storage@y@+symmetry@-y@Indicator for symmetric storage format@S/dpTRUE/dpFALSE/@dpFALSE@0
+ item:@3@pivoting allowed@p@+pivot_allowed@-p@Indicate whether pivoting is allowed in factorizations (affects storage)@S/dpTRUE/dpFALSE/@dpFALSE@0
+ item:@3@threshold value@t@+threshold@-t@Indication of the range of values to be treated as zeros in sparse matrices@R[0:10000]1@-1@0
+
+ submenu:@2@prm(LinEqSolver)@l@Linear solvers and associated parameters@0
+MenuLists@prm(LinEqSolver) 
+ item:@3@basic method@C@+itscheme@-C@class name in LinEqSolver hierarchy@S/GaussElim/Jacobi/SOR/SSOR/ConjGrad/Symmlq/CGS/BiCGStab/TFQMR/MinRes/Gmres/Orthomin/AMG/@GaussElim@0
+ item:@3@pivoting strategy@p@+pivot_tp@-p@indicator for choice of pivot strategy@S/NO_PIVOT/PARTIAL_PIVOT/COMPLETE_PIVOT/@NO_PIVOT@0
+ item:@3@no of search vectors@k@+nsearchv@-k@number of search vectors in truncated iterations, e.g. k in T-OM(k)@I[0:1000]1@5@0
+ item:@3@shift parameter@v@+shift@-v@shift parameter for Symmlq iterations@R[0:2]1@0.0@0
+ item:@3@restart@r@+restart@-r@indicator for restart, e.g. T or R on T-OM(k) or R-OM(k)@S/ON/OFF/@OFF@0
+ item:@3@relaxation parameter@w@+relaxation@-w@relaxation parameter for SOR and SSOR iterations@R[0:2]1@1.0@0
+ item:@3@startvector mode@s@+startvector@-s@indicator for initial guess in iterative solvers@S/USER_START/RANDOM_START/ZERO_START/RHS_START/@USER_START@0
+ item:@3@use default convergence criterion@d@+default_criterion@-d@default criterion is one conv. monitor with default values@S/ON/OFF/@OFF@0
+ item:@3@no of additional convergence monitors@E@+extcrit@-E@number of external convergence monitors to be inserted@I[0:10]1@1@0
+ item:@3@max iterations@I@+maxit@-I@maximum number of iterations@I[1:1000000]1@300@0
+ item:@3@use eigenvalue estimator@e@+estimate_eigvals@-e@indicator for use of add-on eigenvalue estimator@S/ON/OFF/@OFF@0
+
+ submenu:@2@prm(Precond)@L@Preconditioners and associated parameters@0
+MenuLists@prm(Precond) 
+ item:@3@preconditioning type@m@+prec_tp@-m@classname in Precond hierarchy@S/PrecNone/PrecUserDefLU/PrecUserDefInv/PrecUserDefMat/PrecUserDefProc/PrecRILU/PrecJacobi/PrecSOR/PrecSSOR/PrecJacobiIter/PrecSORIter/PrecSSORIter/@PrecNone@0
+ item:@3@left preconditioning@l@+left_prec@-l@indicator for left/right preconditioning@S/ON/OFF/@ON@0
+ item:@3@automatic init@a@+auto_init@-a@indicator for automatic/manual initialization of preconditioners@S/ON/OFF/@ON@0
+ item:@3@fill-in level@L@+fill_in_level@-L@fill-in level L in ILU(L)/RILU(L), L=0,1,2,...@I[0:5]1@0@0
+ item:@3@RILU relaxation parameter@o@+prec_RILU@-o@relaxation parameter for RILU preconditioners@R[0:1]1@0.0@0
+ item:@3@(S)SOR relaxation parameter@w@+prec_SSOR@-w@relaxation parameter for SOR and SSOR preconditioners and inner iterations@R[0:2]1@1.0@0
+ item:@3@inner steps@i@+inner_steps@-i@number of inner steps in two level iterations@I[1:1000]1@1@0
+
+ submenu:@2@prm(ConvMonitorList)@C@Stopping criteria and associated parameters@0
+MenuLists@prm(ConvMonitorList) 
+ submenu:@3@Define ConvMonitor #1@l@Parameters for the ConvMonitor hierarchy@0
+MenuLists@Define ConvMonitor #1 
+ item:@4@#1: convergence monitor name@N@+convmon@-N@class name in ConvMonitor hierarchy@S/CMAbsResidual/CMAbsTrueResidual/CMRelResidual/CMRelResidualUB/CMRelTrueResidual/CMRelMixResidual/CMRelResSolution/CMAbsSeqResidual/CMAbsSeqSolution/CMRelSeqResidual/CMRelSeqSolution/CMAbsRefSolution/CMRelRefSolution/CMAdaptCGprm/@CMRelResidual@0
+ item:@4@#1: residual type@r@+residual_tp@-r@type of residual used in monitor@S/ORIGINAL_RES/LEFTPREC_RES/PSEUDO_RES/@ORIGINAL_RES@0
+ item:@4@#1: max error@e@+maxerr@-e@maximum error in convergence test@R[0:100]1@1.0e-4@0
+ item:@4@#1: norm type@n@+norm_tp@-n@indicator for norm type, e.g. L2 (continuous) or l2 (discrete)@S/L1/L2/l1/l2/Linf/@l2@0
+ item:@4@#1: monitor mode@m@+monitor@-m@indicator for recording of convergence history@S/ON/OFF/@ON@0
+ item:@4@#1: run time plot@p@+runtime_plot@-p@indicator for run time display of convergence history@S/ON/OFF/@OFF@0
+ item:@4@#1: criterion mode@c@+criterion@-c@indicator for action as convergence criterion@S/ON/OFF@ON@0
+ item:@4@#1: append at end of list@a@+append@-a@choice of insertion mode for current monitor@S/ON/OFF@ON@0
+ item:@4@#1: relational operator@o@+criterion@-o@choice of relation operator for use of the current criterion in combined convergence tests@S/CM_OR/CM_AND/@CM_AND@0
+ item:@4@#1: use spectral scaling@s@+use_eig_info@-s@indicator for use of spectral estimates@S/ON/OFF/@OFF@0
+ item:@4@#1: relative to rhs@b@+rel_to_rhs@-b@indicator for basevalue in relative monitors@S/ON/OFF/@OFF@0
+ item:@4@#1: user base@u@+userbase@-u@user-defined base value for relative tests (if appropriate)@R[0:1000]1@1.0@0
+
+
+
+ submenu:@1@prm(NonLinEqSolver)@M@prm(NonLinEqSolver) parameters@0
+MenuLists@prm(NonLinEqSolver) 
+ item:@2@nonlinear iteration method@N@+nonlinit_method@-N@classname from NonLinEqSolver hierarchy@S/LinNonLin/NewtonRaphson/SuccessiveSubst/ConjGradNonLin/@NewtonRaphson@0
+ item:@2@max nonlinear iterations@.@+max_nonlinit@-.@@I[1:1000000]1@100@0
+ item:@2@max estimated nonlinear error@.@+max_nonlinit_eps@-.@max eps; eps=non.lin.error, f.ex. eps=norm(dx)/norm(x)@R[0:100]1@1.0e-04@0
+ item:@2@nonlinear iteration stopping criterion@.@+nonlinit_criterion@-.@1=dx/x , 2=||F||, 3=dx@I[1:4]1@1@0
+ item:@2@eps norm type@.@+eps_norm_tp@-.@norm type used in stopping criterion@S/l1/L1/l2/L2/Linf/@l2@0
+ item:@2@max no of eps increases@.@+max_eps_incs@-.@if 2: two successive increasing eps values imply divergence@I[1:100]1@3@0
+ item:@2@convergence reports@.@+nonlin_conv@-.@error report, 0: none, 1: to screen, 2: also to file@I[0:3]1@1@0
+ item:@2@adjustments@.@+adjustments@-.@extended Newton methods. 0: none, 1:line search, 2:not impl.@I[0:1]1@0@0
+ item:@2@continuation parameter@.@+lambda@-.@SetOfNo::syntax, parameter should be in [0,1]@I[0:1]1@ 1 ;@0
+
+ submenu:@1@Store4Plotting@P@Parameters for visualization of FEM results@0
+MenuLists@Store4Plotting 
+ item:@2@time points for plot@.@+plot_times@-.@Set::scan syntax. ALL implies plotting at every time step (this is equivalent to calling forcePlotting(ON)@S@ALL@0
+ item:@2@line1: start@.@+line1_start@-.@start point for a curve plot along line1 through the domain@S@NONE@0
+ item:@2@line1: stop@.@+line1_stop@-.@stop point for a curve plot along line1 through the domain@S@NONE@0
+ item:@2@line1: resolution@.@+line1_resol@-.@no of sampled points along line 1@I1@31@0
+ item:@2@line2: start@.@+line2_start@-.@start point for a curve plot along line2 through the domain@S@NONE@0
+ item:@2@line2: stop@.@+line2_stop@-.@stop point for a curve plot along line2 through the domain@S@NONE@0
+ item:@2@line2: resolution@.@+line2_resol@-.@no of sampled points along line 2@I1@31@0
+ item:@2@line3: start@.@+line3_start@-.@start point for a curve plot along line3 through the domain@S@NONE@0
+ item:@2@line3: stop@.@+line3_stop@-.@stop point for a curve plot along line3 through the domain@S@NONE@0
+ item:@2@line3: resolution@.@+line3_resol@-.@no of sampled points along line 3@I1@31@0
+ item:@2@time series points@.@+timeseries_pt@-.@GridScatPt::scan syntax for a set of spatial points@S@d=2 n=0 (empty set) or d=2 n=2 (1,1) (0,0.1)@0
+ item:@2@field storage format@.@+field_format@-.@ASCII or BINARY storage mode for fields@S/ASCII/BINARY/@ASCII@0
+ item:@2@grid storage format@.@+grid_format@-.@ASCII or BINARY storage mode for grids@S/ASCII/BINARY/@ASCII@0
+ item:@2@verbose dump@.@+verbose_dump@-.@writes a message when storing fields@S/ON/OFF/dpTRUE/dpFALSE/@OFF@0
+
+ submenu:@1@ElmItgRules@I@Parameters for ElmItgRules@0
+MenuLists@ElmItgRules 
+ item:@2@integration point type@.@+itg_pt_tp@-.@Quadrature points, Gauss or nodes (enum NumItgPoints)@S/GAUSS_POINTS/NODAL_POINTS/@GAUSS_POINTS@0
+ item:@2@relative quadrature order@.@+rel_quad_order@-.@quadrature = standard from element type + relative order@I[-2:2]1@0@0
+ item:@2@smoothing average type@.@+average_tp@-.@averaging in smoothing procedures@S/ARITHMETIC/HARMONIC/@ARITHMETIC@0
+
+ submenu:@1@UpwindFE@U@Parameters for UpwindFE@0
+MenuLists@UpwindFE 
+ item:@2@upwind weighting function method@.@+upwind@-.@0: no upwinding (Galerkin method), 1: Hughes/Brooks spatial, 2: extension of 1, 3: Hughes/Brooks temporal, 4: extension of 3, 5: Heinrich et al, -1: 2nd order Taylor-Galerkin@I[0:5]1@0@0
+
+ submenu:@1@Store4Plotting@P@Parameters for visualization of FEM results@0
+MenuLists@Store4Plotting 
+ item:@2@time points for plot@.@+plot_times@-.@Set::scan syntax. ALL implies plotting at every time step (this is equivalent to calling forcePlotting(ON)@S@ALL@0
+ item:@2@line1: start@.@+line1_start@-.@start point for a curve plot along line1 through the domain@S@NONE@0
+ item:@2@line1: stop@.@+line1_stop@-.@stop point for a curve plot along line1 through the domain@S@NONE@0
+ item:@2@line1: resolution@.@+line1_resol@-.@no of sampled points along line 1@I1@31@0
+ item:@2@line2: start@.@+line2_start@-.@start point for a curve plot along line2 through the domain@S@NONE@0
+ item:@2@line2: stop@.@+line2_stop@-.@stop point for a curve plot along line2 through the domain@S@NONE@0
+ item:@2@line2: resolution@.@+line2_resol@-.@no of sampled points along line 2@I1@31@0
+ item:@2@line3: start@.@+line3_start@-.@start point for a curve plot along line3 through the domain@S@NONE@0
+ item:@2@line3: stop@.@+line3_stop@-.@stop point for a curve plot along line3 through the domain@S@NONE@0
+ item:@2@line3: resolution@.@+line3_resol@-.@no of sampled points along line 3@I1@31@0
+ item:@2@time series points@.@+timeseries_pt@-.@GridScatPt::scan syntax for a set of spatial points@S@d=2 n=0 (empty set) or d=2 n=2 (1,1) (0,0.1)@0
+ item:@2@field storage format@.@+field_format@-.@ASCII or BINARY storage mode for fields@S/ASCII/BINARY/@ASCII@0
+ item:@2@grid storage format@.@+grid_format@-.@ASCII or BINARY storage mode for grids@S/ASCII/BINARY/@ASCII@0
+ item:@2@verbose dump@.@+verbose_dump@-.@writes a message when storing fields@S/ON/OFF/dpTRUE/dpFALSE/@OFF@0
+
+ submenu:@1@Store4Plotting@P@Parameters for visualization of FEM results@0
+MenuLists@Store4Plotting 
+ item:@2@time points for plot@.@+plot_times@-.@Set::scan syntax. ALL implies plotting at every time step (this is equivalent to calling forcePlotting(ON)@S@ALL@0
+ item:@2@line1: start@.@+line1_start@-.@start point for a curve plot along line1 through the domain@S@NONE@0
+ item:@2@line1: stop@.@+line1_stop@-.@stop point for a curve plot along line1 through the domain@S@NONE@0
+ item:@2@line1: resolution@.@+line1_resol@-.@no of sampled points along line 1@I1@31@0
+ item:@2@line2: start@.@+line2_start@-.@start point for a curve plot along line2 through the domain@S@NONE@0
+ item:@2@line2: stop@.@+line2_stop@-.@stop point for a curve plot along line2 through the domain@S@NONE@0
+ item:@2@line2: resolution@.@+line2_resol@-.@no of sampled points along line 2@I1@31@0
+ item:@2@line3: start@.@+line3_start@-.@start point for a curve plot along line3 through the domain@S@NONE@0
+ item:@2@line3: stop@.@+line3_stop@-.@stop point for a curve plot along line3 through the domain@S@NONE@0
+ item:@2@line3: resolution@.@+line3_resol@-.@no of sampled points along line 3@I1@31@0
+ item:@2@time series points@.@+timeseries_pt@-.@GridScatPt::scan syntax for a set of spatial points@S@d=2 n=0 (empty set) or d=2 n=2 (1,1) (0,0.1)@0
+ item:@2@field storage format@.@+field_format@-.@ASCII or BINARY storage mode for fields@S/ASCII/BINARY/@ASCII@0
+ item:@2@grid storage format@.@+grid_format@-.@ASCII or BINARY storage mode for grids@S/ASCII/BINARY/@ASCII@0
+ item:@2@verbose dump@.@+verbose_dump@-.@writes a message when storing fields@S/ON/OFF/dpTRUE/dpFALSE/@OFF@0
+
