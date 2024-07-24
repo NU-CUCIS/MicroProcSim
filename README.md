@@ -1,5 +1,5 @@
 # MicroProcSim
-a physics-based simulation tool for replicating the deformation process of cubic microstructures across different operating systems.
+A physics-based simulation tool for replicating the deformation process of cubic microstructures across different operating systems.
 
 Inputs: 1) Processing sequence (param files - explained below)
 	2) Process strain rate (param files - explained below)
