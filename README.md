@@ -46,5 +46,51 @@ we can not use the 'for' loop. We have to execute the first loading, then we nee
 
 In Simulator folder 5 param files are given for tension/compression, plane strain compression, xy, xz and yz shear forces. For example, we want to run the process for tension then we need to name "param_tension/compression.txt." as "param.txt".
 
+### Run ElemNet model
+
+To run the process in `process.m` and execute the command for running the simulation, you can use the following code:
+
+```matlab
+system("./wine-dirs/wine64-build/wine ./Simulator/app.exe"); % Command for process running
+```
+
+This command will execute the `app.exe` file using Wine, which is a compatibility layer for running Windows applications on Unix-like operating systems.
+
+The provided code is a command that runs an executable file called app.exe inside MATLAB. Let's break it down step by step:
+
+`matlab -nodisplay -nosplash -nodesktop -r "run('./Simulator/process.m');exit;`
+
+matlab: This is the command that launches MATLAB, the programming environment for numerical computing and data analysis.
+
+-nodisplay: This flag tells MATLAB not to display the graphical user interface (GUI). It is useful when running MATLAB in a non-interactive mode, such as in a script or a command line.
+
+-nosplash: This flag prevents MATLAB from displaying the splash screen when it starts up. The splash screen is the initial loading screen that shows the MATLAB logo and version information.
+
+-nodesktop: This flag prevents MATLAB from opening the desktop environment, which includes the Command Window, Editor, and other interactive tools. It is commonly used when running MATLAB in a non-interactive mode.
+
+-r "run('./Simulator/process.m');exit;": This is a MATLAB command that is executed after MATLAB starts up. It consists of two parts:
+
+run('./Simulator/process.m'): This command runs the MATLAB script file process.m located in the Simulator directory. The run function executes the specified script file within the MATLAB environment.
+
+exit;: This command tells MATLAB to exit after executing the script. It ensures that MATLAB closes automatically once the script has finished running.
+
+Overall, this code launches MATLAB in a non-interactive mode, runs the process.m script, and then exits MATLAB. It is commonly used to automate the execution of MATLAB scripts or to run MATLAB code from external programs or scripts.
+
+## Publication
+
+Manuscript Under Preparation ... 
+
+## Disclaimer
+
+email: talha.kilic@u.northwestern.edu
+
+Copyright (C) 2024, Northwestern University.
+
+See COPYRIGHT notice in top-level directory.
+
+## Funding Support
+
+This research was supported by the National Science Foundation (NSF) CMMI Division Grant CMMI-2053840/2053929
+(Program Director: Dr. Kathryn Jablokow). Partial support from NIST award 70NANB19H005 is also acknowledged. 
 
 Please feel free to contact us if you have any question. Thank you.
