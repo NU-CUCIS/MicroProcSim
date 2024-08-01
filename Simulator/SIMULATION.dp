@@ -1,2 +1,2 @@
-Case SIMULATION at luke.eecs.northwestern.edu (cannot evaluate environment variable "HOSTTYPE" (undefined?)), Mon Dec 04 18:29:45 2023 by mnk7465
-Execution command: "Z:/data/mnk7465/others/Simulator/app.exe" 
+Case SIMULATION at luke.ece.northwestern.edu (cannot evaluate environment variable "HOSTTYPE" (undefined?)), Mon Jul 29 00:34:50 2024 by mnk7465
+Execution command: "Z:/data/mnk7465/0-others/MicroProcSim/Simulator/app.exe" 
