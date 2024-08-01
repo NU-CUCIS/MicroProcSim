@@ -46,7 +46,7 @@ we can not use the 'for' loop. We have to execute the first loading, then we nee
 
 In Simulator folder 5 param files are given for tension/compression, plane strain compression, xy, xz and yz shear forces. For example, we want to run the process for tension then we need to name "param_tension/compression.txt." as "param.txt".
 
-### Run ElemNet model
+### Run Simulation
 
 To run the process in `process.m` and execute the command for running the simulation, you can use the following code:
 
