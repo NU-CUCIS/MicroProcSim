@@ -1,6 +1,0 @@
-# Auto-generated stub makefile; all rules forward to the top-level makefile
-
-all:
-all install install-lib clean mapistub.dll.so i386-windows/mapistub.dll:
-	@cd ../.. && $(MAKE) dlls/mapistub/$@
-.PHONY: all install install-lib clean
