@@ -78,7 +78,7 @@ Overall, this code launches MATLAB in a non-interactive mode, runs the process.m
 
 ## Publication
 
-Manuscript Under Preparation ... 
+1- Md Maruf Billah, Md Mahmudul Hasan, Muhammed Nur Talha Kilic, Yuwei Yao, Alok Choudhary, Ankit Agrawal, Veera Sundararaghavan, Pinar Acar, "MicroProcSim: A software for simulation of microstructure evolution", Manuscript Under Preparation.
 
 ## Disclaimer
 
