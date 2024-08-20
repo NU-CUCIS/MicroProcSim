@@ -47,18 +47,29 @@ we can not use the 'for' loop. We have to execute the first loading, then we nee
 In Simulator folder 5 param files are given for tension/compression, plane strain compression, xy, xz and yz shear forces. For example, we want to run the process for tension then we need to name "param_tension/compression.txt." as "param.txt".
 
 ### Run Simulation
+In order to load the neccesary files and to add permission for wine, run the commands on Unix-like operating systems:
 
-To run the process in `process.m` and execute the command for running the simulation, you can use the following code:
+`cd ../wine-dirs/wine64-build/nls/`
+`make`
+`cd ../wine-dirs/wine64-build/server/`
+`chmod +x wineserver`
+
+In order to set the directory of wine copy and paste the command to the bashrc. file:
+
+`export PATH=$PATH:./wine-dirs/wine64-build/loader`
+
+To run the process in `process.m` and execute the command for running the simulation, you can use the following code after setting the current directory as "`./Simulator`":
 
 ```matlab
-system("./wine-dirs/wine64-build/wine ./Simulator/app.exe"); % Command for process running
+system("wine app.exe"); % Command for process running
 ```
 
 This command will execute the `app.exe` file using Wine, which is a compatibility layer for running Windows applications on Unix-like operating systems.
 
+
 The provided code is a command that runs an executable file called app.exe inside MATLAB. Let's break it down step by step:
 
-`matlab -nodisplay -nosplash -nodesktop -r "run('./Simulator/process.m');exit;`
+`matlab -nodisplay -nosplash -nodesktop -r "run('process.m');exit;`
 
 matlab: This is the command that launches MATLAB, the programming environment for numerical computing and data analysis.
 
@@ -68,9 +79,9 @@ matlab: This is the command that launches MATLAB, the programming environment fo
 
 -nodesktop: This flag prevents MATLAB from opening the desktop environment, which includes the Command Window, Editor, and other interactive tools. It is commonly used when running MATLAB in a non-interactive mode.
 
--r "run('./Simulator/process.m');exit;": This is a MATLAB command that is executed after MATLAB starts up. It consists of two parts:
+-r "run('process.m');exit;": This is a MATLAB command that is executed after MATLAB starts up. It consists of two parts:
 
-run('./Simulator/process.m'): This command runs the MATLAB script file process.m located in the Simulator directory. The run function executes the specified script file within the MATLAB environment.
+run('process.m'): This command runs the MATLAB script file process.m located in the Simulator directory. The run function executes the specified script file within the MATLAB environment.
 
 exit;: This command tells MATLAB to exit after executing the script. It ensures that MATLAB closes automatically once the script has finished running.
 
