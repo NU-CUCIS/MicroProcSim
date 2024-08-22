@@ -89,19 +89,16 @@ Overall, this code launches MATLAB in a non-interactive mode, runs the process.m
 
 ## Publication
 
-1- Md Maruf Billah, Md Mahmudul Hasan, Muhammed Nur Talha Kilic, Yuwei Yao, Alok Choudhary, Ankit Agrawal, Veera Sundararaghavan, Pinar Acar, "MicroProcSim: A software for simulation of microstructure evolution", Manuscript Under Preparation.
+Md Maruf Billah, Muhammed Nur Talha Kilic, Md Mahmudul Hasan, Zekeriya Ender Eger, Yuwei Yao, Kewei Wang, Alok Choudhary, Ankit Agrawal, Veera Sundararaghavan, Pinar Acar, "MicroProcSim: A software for simulation of microstructure evolution", Manuscript in preparation.
 
-## Disclaimer
+## Contact
 
-email: talha.kilic@u.northwestern.edu
+email: mdmaruf@vt.edu, talha.kilic@u.northwestern.edu
 
-Copyright (C) 2024, Northwestern University.
+Copyright (C) 2024, Virginia Tech, University of Michigan, Northwestern University.
 
 See COPYRIGHT notice in top-level directory.
 
 ## Funding Support
 
-This research was supported by the National Science Foundation (NSF) CMMI Division Grant CMMI-2053840/2053929
-(Program Director: Dr. Kathryn Jablokow). Partial support from NIST award 70NANB19H005 is also acknowledged. 
-
-Please feel free to contact us if you have any question. Thank you.
+This research was supported by the National Science Foundation (NSF) CMMI Division Grant CMMI-2053840/2053929. Partial support from NIST award 70NANB19H005 and Northwestern Center for Nanocombinatorics is also acknowledged.
