@@ -1,0 +1,35 @@
+set gridfile = sw1.grid
+set max_number_Gauss_pts = 4
+set add boundary nodes= n=0
+set redefine boundary indicators = nb=1 names=one 1=(1)
+set dof_slip_systems         = 12
+set general_constitutive_model     = RateDependentModel
+set specific_constitutive_model     = PowLaw
+set specific_solution_strategy     = FullModel
+set TimePrm                  = dt=0.01 t in [0,0.1]
+set last_grid_file           = 0
+set model_size               = 3
+set angular_spacing          = 5
+set ensemble_size            = 10
+set times_for_plot_grid      = 0 0.25 0.5 0.75 1.0;
+set times_for_plot_fields    = 0 0.25 0.5 0.75 1.0;
+sub prm(NonLinEqSolver)
+set nonlinear iteration method = NewtonRaphson
+set max nonlinear iterations = 100
+set max estimated nonlinear error = 1.0e-04
+set convergence reports = 1
+ok
+sub LinEqAdm
+sub prm(Matrix)
+set matrix type = MatBand
+ok
+sub prm(LinEqSolver)
+set basic method = GaussElim
+ok
+ok
+sub UpwindFE
+  set upwind weighting function method = 1
+ok 	
+!
+ok
+
