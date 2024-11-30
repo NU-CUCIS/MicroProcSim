@@ -1,242 +1,129 @@
-%This code works for multiple runs of a particular process sequence: this can be
-%single or combined applied force. 'param' file is used in every run
-% see the instruction in the help file if loading conditions vary in each
-% run
+% Load the newmesh.mat file for plotting the ODF in Rodrigues orientation space
+load newmesh.mat
 
-clear all; clc;
+% Load the newmesh.mat file, which contains the 'volumefraction (q)' matrix
+load FCC_volumefraction.mat 
 
-load newmesh
-load newgalfenoldata  % Loading cubic structure data
+% Specify the loading parameter load_p:
+% For tension/compression in the x-direction, set load_p = 1
+% For plain strain compression in the x-direction, set load_p = 2
+% For shear in the xy-plane, set load_p = 3
+% For shear in the xz-plane, set load_p = 4
+% For shear in the yz-plane, set load_p = 5
 
-% Input ODFs for the first run
+load_p = 1;
+param = zeros(1, 8);
+strain_rate = 1;      % This may be changed depending upon the strain rate (/s)
+param(1, load_p) = strain_rate; 
 
-% odf_samples = textread('Sample_ODF.txt'); % Replace this with your own samples - 76x1 vectors
-% 
-% volfrac = volumefraction*odf_samples;
-% odf_samples = odf_samples./volfrac; % Normalized to satisfy the voluma fraction constraint
+% Write the param file as mentioned on loading
+T2 = table(param);
+writetable(T2, 'param.txt', 'WriteVariableNames', 0, 'Delimiter', '\t'); % saving param file in the folder
 
-ans = repmat(1, 1, 76)';
-volfrac = volumefraction*ans;
-odf_samples = ans./volfrac;
+% n_total is the total number of times the simulation is run. The initial ODF of each run is the final ODF of the previous run.
+n_total = 2; 
 
-% Input ODF: ODF (generating 145 odfs from 76 independent ODFs)
-% This is an auto process : 145 ODFs are due to crystal symmetry
+% % Input randomly oriented microstructure ODFs for the first run
+odf = (1/sum(volumefraction))*ones(145,1);
+A = odf;
 
-odf = zeros(145,1);
-odf(1:76) = odf_samples;
-odf(newmesh.eqv(1,:)) = odf(newmesh.eqv(2,:));
+for runIdx = 1:n_total
+    % Display the current run number
+    fprintf('Run number: %d\n', runIdx);
 
-T1=table(odf);
-writetable(T1,'Input_ODF.txt','WriteVariableNames',0); % saving as initial Input_ODF in the folder
+    % Input ODFs for the current run
+    odf = A(:, end);
 
-% Defining Process Parameters
+    % Write the Input ODF file
+    T1 = table(odf);
+    writetable(T1, 'Input_ODF.txt', 'WriteVariableNames', 0); % saving as initial Input_ODF in the folder
 
-% param_tension=     1	0	0	0	0	0	0	0
-% param_compression= 0	1	0	0	0	0	0	0
-% param_xyshear=     0	0	1	0	0	0	0	0
-% param_xzshear=     0	0	0	1	0	0	0	0
-% param_yzshear=     0	0	0	0	1	0	0	0
+    % Run the app.exe file
+    system('app.exe');
 
-% Non-zero value can be changed with any strain rate value
+    % Initialize matrix A to store the last column from each file
+    A = zeros(145, 10); % Since we are taking 145 lines from 10 files
 
-% For a combined load (e.g., tension and xy shear the param file will look
-% like
-%param_tension_xyshear= 1	0	1	0	0	0	0	0
-
-% Similarly other load combinations can be created
-
-% Let's do it for tension with strain rate 1
-
-param=zeros(1,8);
-tmp = 0;
-
-for pa1=0:0.25:1
-    for pa2=0:0.25:1
-        for pa3=0:0.25:1
-            for pa4=0:0.25:1
-                for pa5=0:0.25:1
-%                     strain_rate=1;      % This can be changed
-%                     param(1,1)=strain_rate; % replace corresponding element for different loading
-%                     
-%                     T2=table(param);
-%                     writetable(T2,'param.txt','WriteVariableNames',0,'Delimiter','\t') % saving param file in the folder
-
-                    tmp = tmp+1;
-                    param(1, 1)=pa1;
-                    param(1, 2)=pa2;
-                    param(1, 3)=pa3;
-                    param(1, 4)=pa4;
-                    param(1, 5)=pa5;
-                    
-                    n=1; % number of steps i.e., how many times we want to run the process
-                    
-                    odf_eachstep_total=zeros(145,10,n);      % Raw ODFs after all runs
-                    odf_normalized_total_76=zeros(76,10,n);   % Normalized independent (76) ODFs after all runs
-                    odf_normalized_total_145=zeros(145,10,n); % Normalized independent and dependent (145) ODFs after all runs
-                    
-                    vel_eachstep_total=zeros(145,10,n);   
-                    
-                    for kk=1:1:n;
-                        
-                        system("/data/mnk7465/0-others/MicroProcSim/wine-dirs/wine64-build/wine /data/mnk7465/0-others/MicroProcSim/Simulator/app.exe"); % Command for process running
-                        
-                        odf_eachstep=zeros(145,10);
-                        
-                        % saving ODF outputs of first 9 steps of each run (extracting from .out)
-                        
-                        
-                        for i=1:1:9;
-                            
-                            
-                            fname=sprintf('ODFField000%d.out',i);
-                            f = fopen(fname);
-                            C = textscan(f, '%s','delimiter','\n');
-                            odf_output=zeros(145,1);
-                            
-                            for j=1:1:145;
-                                a=str2num(C{1, 1}{(4+j),1});
-                                b=a(4);
-                                if b<0
-                                    b=0;
-                                else
-                                    b=b;
-                                end
-                                odf_output(j)=b;
-                            end
-                            odf_eachstep(:,i)=odf_output;
-                            fclose(f);
-                        end
-                        
-                        % saving ODF output of the 10th steps of each run
-                        
-                   
-                        f1 = fopen('ODFField0010.out');
-                        C1 = textscan(f1, '%s','delimiter','\n');
-                        
-                        odf_output_10=zeros(145,1);
-                        
-                        for k=1:1:145;
-                            a=str2num(C1{1, 1}{(4+k),1});
-                            b=a(4);
-                            if b<0
-                                b=0;
-                            else
-                                b=b;
-                            end
-                            odf_output_10(k)=b;
-                        end
-                        
-                        odf_eachstep(:,10)=odf_output_10;
-                        fclose(f1);
-                        
-                        %Normalized Independent and Dependent ODFs
-                        
-                        odf_normalized_76=zeros(76,10);
-                        odf_normalized_145=zeros(145,10);
-                        
-                        for m=1:1:10;
-                            odf_76=odf_eachstep(1:76,m);
-                            check=volumefraction*odf_76;
-                            odf_76=odf_76./check;
-                            odf_normalized_76(:,m)=odf_76;
-                            odf_145=zeros(145,1);
-                            odf_145(1:76)=odf_76;
-                            odf_145(newmesh.eqv(1,:)) = odf_145(newmesh.eqv(2,:));
-                            odf_normalized_145(:,m)=odf_145;
-                        end
-
-                        odf_eachstep_total(:,:,kk)=odf_eachstep;
-                        odf_normalized_total_76(:,:,kk)=odf_normalized_76;
-                        odf_normalized_total_145(:,:,kk)=odf_normalized_145;
-                        
-                        vel_eachstep=zeros(145,10);
-                     
-                        % saving velo outputs of first 9 steps of each run (extracting from .out                       
-                        
-                        for i=1:1:9;
-                            
-                            
-                            fname=sprintf('VelocityField000%d.out',i);
-                            f = fopen(fname);
-                            C = textscan(f, '%s','delimiter','\n');
-                            vel_output=zeros(145,1);
-                            
-                            for j=1:1:145;
-                                a=str2num(C{1, 1}{(4+j),1});
-                                b=a(4);
-                                if b<0
-                                    b=0;
-                                else
-                                    b=b;
-                                end
-                                vel_output(j)=b;
-                            end
-                            vel_eachstep(:,i)=vel_output;
-
-                            fclose(f);
-                        end
-                        
-                        % saving vel output of the 10th steps of each run
-                        
-                   
-                        f1 = fopen('VelocityField0010.out');
-                        C1 = textscan(f1, '%s','delimiter','\n');
-                        
-                        vel_output_10=zeros(145,1);
-                        
-                        for k=1:1:145;
-                            a=str2num(C1{1, 1}{(4+k),1});
-                            b=a(4);
-                            if b<0
-                                b=0;
-                            else
-                                b=b;
-                            end
-                            vel_output_10(k)=b;
-                        end
-                        
-                        vel_eachstep(:,10)=vel_output_10;
-                        
-%                         % Saving output (10th ODFs) of the this run as the Input of the next run
-%                         
-%                         T3=table(odf_normalized_145(:,10));
-%                         writetable(T3,'Input_ODF.txt','WriteVariableNames',0); %It will overwrite the previous input ODFs
-                        
-                        % saving the output of each run
-                        
-                        vel_eachstep_total(:,:,kk)=vel_eachstep;
-                        fclose(f1);
-                        
-                    end
-                    
-                    %Saving Cauchy Stress after all runs. See help file for more instruction
-                    
-%                     f2=fopen('stress-strain.out');
-%                     C2=textscan(f2, '%s','delimiter','\n');
-%                     len=((size(C2{1,1},1)-9)/8)+1;
-%                     
-%                     Cauchy=zeros(9,len);
-%                     
-%                     for n=1:1:len
-%                         a1=str2num(C2{1,1}{(8*n-4),1}(9:end));
-%                         a2=str2num(C2{1,1}{(8*n-3),1});
-%                         a3=str2num(C2{1,1}{(8*n-2),1});
-%                         
-%                         a_all=[a1;a2;a3];
-%                         a_all_converted=a_all(:);
-%                         
-%                         Cauchy(:,n)=a_all_converted;
-%                         
-%                     end
-                    
-                    path = ['data/', num2str(pa1),num2str(pa2),num2str(pa3),num2str(pa4),num2str(pa5), '.mat']
-                    save(path, 'odf_normalized_total_76', 'vel_eachstep_total')
-                    
-                end
-            end
+    % Loop over all 10 files
+    for fileIdx = 1:10
+        % Generate the file name, e.g., ODFField0001.out, ODFField0002.out, etc.
+        fileName = sprintf('ODFField%04d.out', fileIdx);
+        
+        % Open the file for reading
+        fileID = fopen(fileName, 'r');
+        
+        % Read the entire file into a cell array, one line per cell
+        fileContent = textscan(fileID, '%s', 'Delimiter', '\n');
+        fileContent = fileContent{1}; % Extract the content from the cell array
+        
+        % Close the file
+        fclose(fileID);
+        
+        % Extract lines from 5 to 149 (these lines are stored in cell array 5:149)
+        selectedLines = fileContent(5:149);
+        
+        % Loop through each of these lines to extract the last column
+        for lineIdx = 1:length(selectedLines)
+            % Split the line into individual columns based on whitespace
+            columns = strsplit(selectedLines{lineIdx});
+            
+            % Convert the last column to a number and store in matrix A
+            A(lineIdx, fileIdx) = str2double(columns{end});
         end
     end
+
+% Initialize B with 76 rows and 10 columns
+B = zeros(76, 10);
+
+% The ODF position in Rodrigues orientation space for the software output and the newmesh.mat file is different, which is why a mapping is required to match them.
+% Load the mapping from the 'mapping.txt' file
+fileID = fopen('mapping.txt', 'r');
+mappingData = textscan(fileID, 'B(%d) = A(%d)', 'Delimiter', '\n');
+fclose(fileID);
+
+% Extract the row indices for B and A from the mapping data
+B_indices = mappingData{1};
+A_indices = mappingData{2};
+
+% Map the corresponding rows from A to B using the mapping
+for i = 1:length(B_indices)
+    B(B_indices(i), :) = A(A_indices(i), :);
 end
 
+%%%% Checking normalization constraint %%%%
+% Initialize a cell array to store the results
+T = cell(1, 10);
 
+% Loop through each column of B and multiply by S
+for i = 1:10
+    Bi = B(:, i);     % Extract the i-th column of B (76x1 matrix)
+    Ti = volumefraction * Bi;      % Multiply S (1x76) by Bi (76x1) resulting in Ti (1x1)
+    T{i} = Ti;        % Store the result in cell array T
+    B(:, i) = Ti^(-1)*B(:, i);  % Updating independent ODFs to ensure normalization constraint
+    A(:, i) = Ti^(-1)*A(:, i);  % Updating all ODFs
+    Bi = B(:, i);     % Extract the i-th column of B (76x1 matrix)
+    Ti_updated = volumefraction * Bi;      % Multiply S (1x76) by Bi (76x1) resulting in Ti (1x1)
+    T_updated{i} = Ti_updated;        % Store the result in cell array T
+end
 
+% Display old T results
+for i = 1:10
+    fprintf('T%d = %f\n', i, T{i});
+end
+
+% Display updated T results
+for i = 1:10
+    fprintf('T%d_updated = %f\n', i, T_updated{i});
+end
+
+%%%% Ploting the ODFs %%%% 
+% Loop through each column of A
+for i = 1:10
+    Bi = B(:, i);  % Extract the ith column of A
+fropts = {'Symmetries', 'cubic', 'ShowMesh', 'on'};
+PlotFR(newmesh,Bi,fropts{:})
+end
+
+end
+
+fprintf('\n A total of %d simulation(s) have been done.\n', n_total);
