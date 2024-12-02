@@ -27,22 +27,23 @@ For a combined loading condition (for example tension and xy shear applied toget
 
 The MATLAB code includes the commands to ensure that ODFs are satisfying these two conditions.
 
-6) The code is written for 0.1 sec of loading time. We can monitor the change in the ODFs in each 0.01 sec time step. Therefore, we will have 10 ODF vector outputs in each run. 
+6) The code is written for 0.1 sec of loading time. We can monitor the change in the ODFs in each 0.01 sec time step. Therefore, we will have 10 ODF vector outputs in each run.
+7) Process.m under the simulator folder has also additional plot function to display the 10*n_total number of ODF plots after the run.
 
 If we want to run the process for 0.3 sec, for example, we have to run the code three times. After each run, final ODFs should be input ODF of the next run.
 
-7) We cannot make any change in the input file named "input.txt". 
+8) We cannot make any change in the input file named "input.txt". 
 
-8) A MATLAB code is provided to make the process simulation automatic for multiple runs and to save the necessary output files for analysis.
+9) A MATLAB code is provided to make the process simulation automatic for multiple runs and to save the necessary output files for analysis.
 
 The MATLAB file name is "process.m" is located in Simulator folder. Each step is explained within the code. Two '.mat' files named "newmesh.mat" and "cubicstructuredata.mat" are loaded before the main code. 
 
 The code will work for a particular loading condition (single or combined loading) for multiple runs. However, if we need to make different loading in each run
 we can not use the 'for' loop. We have to execute the first loading, then we need to wait for obtaining the output which can be used as the input ODFs for the next run which has a different loading condition. This is happening because each time the input file of loading should be named as "param.txt".  
 
-9) After each run a "stress-strain.out" file will be generated that include the Cauchy Stress Tensor (material property output). Matlab code is also saving this output. Each run will generate 10 Cauchy Stress Tensors. Therefore, if we run 3 times it will have 30 Stress Tensors. Cauchy Stress Tensor is a 3x3 matrix. In Matlab, it is converted to a column vector. Each column of the file named "Cauchy.mat" represents the Cauchy Stress Tensor. We need to reshape it to make it a 3x3 matrix.
+10) After each run a "stress-strain.out" file will be generated that include the Cauchy Stress Tensor (material property output). Matlab code is also saving this output. Each run will generate 10 Cauchy Stress Tensors. Therefore, if we run 3 times it will have 30 Stress Tensors. Cauchy Stress Tensor is a 3x3 matrix. In Matlab, it is converted to a column vector. Each column of the file named "Cauchy.mat" represents the Cauchy Stress Tensor. We need to reshape it to make it a 3x3 matrix.
 
-10) Without the MATLAB code, the process can also be run by "app.exe". In this case, we have to make sure that "param.txt" and "Input_ODF.txt" files along with other necessary files are available in the folder.
+11) Without the MATLAB code, the process can also be run by "app.exe". In this case, we have to make sure that "param.txt" and "Input_ODF.txt" files along with other necessary files are available in the folder.
 
 In Simulator folder 5 param files are given for tension/compression, plane strain compression, xy, xz and yz shear forces. For example, we want to run the process for tension then we need to name "param_tension/compression.txt." as "param.txt".
 
